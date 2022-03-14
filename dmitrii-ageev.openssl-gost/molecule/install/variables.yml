@@ -1,0 +1,9 @@
+---
+openssl__state: present
+openssl__validate_certs: false
+openssl__get_certificates_from_origin: false
+
+openssl__config:
+  system_default_sect:
+    MinProtocol: TLSv1.2
+    CipherString: "GOST2012-GOST8912-GOST8912:GOST2001-GOST89-GOST89:DEFAULT@SECLEVEL=2"

@@ -1,0 +1,60 @@
+---
+scenario:
+  name: uninstall
+  create_sequence:
+    - dependency
+    - create
+    - prepare
+  check_sequence:
+    - dependency
+    - cleanup
+    - destroy
+    - create
+    - prepare
+    - converge
+    - check
+    - destroy
+  converge_sequence:
+    - dependency
+    - create
+    - prepare
+    - converge
+  destroy_sequence:
+    - dependency
+    - cleanup
+    - destroy
+  test_sequence:
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint --exclude molecule/default/variables.yml
+  flake8
+platforms:
+  - name: instance
+    image: ${MOLECULE_DISTRO:-dmitriiageev/debian-systemd:10}
+    privileged: true
+    tmpfs:
+      - /tmp
+      - /run
+      - /run/lock
+      - /var/run
+      - /var/run/lock
+      - /var/lock
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    pre_build_image: true
+provisioner:
+  name: ansible
+  log: true
+  playbooks:
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
+verifier:
+  name: testinfra

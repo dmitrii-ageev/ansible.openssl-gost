@@ -1,0 +1,17 @@
+{%- for key,value in openssl__dynamic_config.items() -%}
+{%    if value is iterable and value is not string %}
+
+[ {{ key }} ]
+{%      for k,v in value.items() %}
+{%        if v is boolean %}
+{{          k }} = {{ v|bool|ternary('yes', 'no') }}
+{%        else %}
+{{          k }} = {{ v }}
+{%        endif %}
+{%      endfor %}
+{%    elif value is boolean -%}
+{{      key }} = {{ value|bool|ternary('yes', 'no') }}
+{%    else %}
+{{      key }} = {{ value }}
+{%    endif -%}
+{%  endfor -%}

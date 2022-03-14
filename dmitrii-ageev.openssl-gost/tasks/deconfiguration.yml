@@ -1,0 +1,20 @@
+---
+- name: Delete configuration files
+  file:
+    path: "{{ item.path | default(item.dest) | default(item) }}"
+    state: absent
+  loop: "{{ openssl__files }}"
+
+- name: Remove service directories
+  file:
+    path: "{{ item.path | default(item.dest) | default(item) }}"
+    state: absent
+  loop: "{{ openssl__directories }}"
+
+- name: Remove Self Signed OpenSSL certificate
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ openssl__tls_certificate }}"
+    - "{{ openssl__tls_certificate_key }}"

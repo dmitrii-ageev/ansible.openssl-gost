@@ -1,0 +1,19 @@
+---
+- name: Uninstall the service packages
+  package:
+    name: "{{ openssl__packages }}"
+    state: absent
+
+- block:
+    - name: Delete the daemon user
+      user:
+        name: "{{ openssl__user }}"
+        state: absent
+        remove: true
+
+    - name: Delete the daemon group
+      group:
+        name: "{{ openssl__group }}"
+        state: absent
+
+  when: openssl__user != "root"

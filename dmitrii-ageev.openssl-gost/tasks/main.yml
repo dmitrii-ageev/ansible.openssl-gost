@@ -1,0 +1,10 @@
+---
+- block:
+    - include_tasks: install.yml
+    - include_tasks: configuration.yml
+  when: openssl__state == "present"
+
+- block:
+    - include_tasks: deconfiguration.yml
+    - include_tasks: uninstall.yml
+  when: openssl__state != "present"

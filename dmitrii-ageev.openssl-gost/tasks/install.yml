@@ -1,0 +1,22 @@
+---
+- block:
+    - name: Create a daemon group
+      group:
+        name: "{{ openssl__group }}"
+        system: true
+
+    - name: Create a daemon user
+      user:
+        name: "{{ openssl__user }}"
+        group: "{{ openssl__group }}"
+        system: true
+        comment: "{{ openssl__description }}"
+        create_home: false
+        home: "{{ openssl__work_dir }}"
+  when: openssl__user != "root"
+
+- name: Install {{ openssl__service }} packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ openssl__packages }}"

@@ -1,0 +1,360 @@
+---
+## Status of package ( present, absent )
+openssl__state: present
+
+## Service, daemon, opt_ions and description
+openssl__service: "openssl"
+openssl__service_name: "{{ openssl__service }}"
+openssl__description: "{{ openssl__service }} - Secure Socker Layer Toolkit"
+
+## User and group
+openssl__user: "root"
+openssl__group: "{{ openssl__user }}"
+
+## Modes
+openssl__dir_mode: "0755"
+openssl__file_mode: "0644"
+openssl__exec_mode: "0755"
+
+## Directories
+# Standard set
+openssl__root_dir: ""
+openssl__etc_dir: "{{ openssl__root_dir }}/etc"
+openssl__lib_dir: "{{ openssl__root_dir }}/lib"
+openssl__usr_dir: "{{ openssl__root_dir }}/usr"
+openssl__usr_bin_dir: "{{ openssl__usr_dir  }}/bin"
+openssl__var_dir: "{{ openssl__root_dir }}/var"
+openssl__var_lib_dir: "{{ openssl__var_dir  }}/lib"
+openssl__var_log_dir: "{{ openssl__var_dir  }}/log"
+
+# Application set
+openssl__config_dir: "{{ openssl__etc_dir }}/ssl"
+openssl__certs_dir: "{{ openssl__config_dir }}/certs"
+openssl__private_dir: "{{ openssl__config_dir }}/private"
+
+openssl__directories:
+  - "{{ openssl__config_dir }}"
+  - "{{ openssl__certs_dir }}"
+  - path: "{{ openssl__private_dir }}"
+    mode: '0700'
+
+
+## Files
+openssl__config_file: "{{ openssl__config_dir }}/{{ openssl__service }}.cnf"
+openssl__tls_certificate: "{{ openssl__certs_dir }}/snakeoil"
+openssl__tls_certificate_key: "{{ openssl__private_dir }}/snakeoil.key"
+
+openssl__files:
+  - "{{ openssl__config_file }}"
+
+openssl__certificates:
+  # Корневые сертификаты удостоверяющих центров компаний "Контур", "Сертум Про", "ЦИБ‑Сервис" и "РСЦ "Инфо‑Бухгалтер" https://ca.kontur.ru/about/certificates
+  # УЦ АО «ПФ «СКБ Контур»
+  - http://ca.sertum-pro.ru/certificates/sertum-pro-q-2021.crt
+  - http://ca.sertum-pro.ru/cdp/sertum-pro-q-2021.crl
+  - http://cdp.skbkontur.ru/certificates/skbkontur-q-2021.crt
+  - http://cdp.skbkontur.ru/cdp/skbkontur-q-2021.crl
+  - http://cdp.skbkontur.ru/certificates/skbkontur-q1-2021.crt
+  - http://cdp.skbkontur.ru/cdp/skbkontur-q1-2021.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/541EB1FB306CB440A71068443E80ACCF5E7C2106
+  - http://cdp.skbkontur.ru/cdp/skbkontur-q1-2018.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/E5280BBAD16EC10CECF25262E54ED278A8B2CEA8
+  - http://cdp.skbkontur.ru/cdp/skbkontur-q-2019.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/624F3915FF7E12B6374D3918501C637078E7F8C7
+  - http://cdp.skbkontur.ru/cdp/skbkontur-q-2020.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/2471EF4004DA57A7B5939355C66C30DCAC26A794
+  - http://cdp.skbkontur.ru/cdp/skbkontur-q-2021.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/699CA433E4B8E49069171558DE10BD170E12F0E4
+  - http://cdp.skbkontur.ru/cdp/skbkontur-q-2018.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/703B8B1CB7F8AE54DCEC86F33C783E0AC6094B8A
+  - http://cdp.skbkontur.ru/cdp/kontur-q1-2017.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/16159C984E6548BDCD0A2C518E493B8194BB0E33
+  - http://cdp.skbkontur.ru/cdp/skbkontur-q1-2021.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/13E418CD7EA9F7832195FEA36B82F3A60CD34574
+  - http://cdp.skbkontur.ru/cdp/skbkontur-q1-2019.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/CEC84B866D895E85522A7CF463ACB7ADAB60F2FA
+  - http://cdp.skbkontur.ru/cdp/skbkontur-q1-2020.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/9EDEC37F9BB6A5A72D92C7F89F5895C394CE7C8B
+  - http://cdp.skbkontur.ru/cdp/kontur-q1-2018.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/AD7758D649BE895DD179D9A9DE255AD60BD51A4D
+  - http://cdp.skbkontur.ru/cdp/kontur-q-2017.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/A2BD7528E6C9467947E6C5F0E984109FD5EE0F71
+  - http://cdp.skbkontur.ru/cdp/kontur-q-2018.crl
+  # УЦ ООО «Сертум‑Про»
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/460B97F34AF1AA20C31467A30203DB755F1FDF36
+  - http://ca.sertum-pro.ru/cdp/sertum-q-2016.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/91C2A8AC26DE616FFF487A75C5343DD8A05032FB
+  - http://ca.sertum-pro.ru/cdp/sertum-pro-q-2018.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/2ADB1DE3CA137D0761AB6F0739DAC43707563440
+  - http://ca.sertum-pro.ru/cdp/sertum-pro-q-2019.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/8693BA0B5FB390A49D08CE41CA930B7D151D19C7
+  - http://ca.sertum-pro.ru/cdp/sertum-pro-q-2020.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/3BE756196B4AB2918B53BE72DED2D36AB87DD1E6
+  - http://ca.sertum-pro.ru/cdp/sertum-qs-2017.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/98047F2D7DE9383A9AC03BBF04D98E2982B18E50
+  - http://ca.sertum-pro.ru/cdp/sertum-pro-q-2021.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/E64464F8A6BD6E3E6A68B82A563B942B2FC2EDFE
+  - http://ca.sertum-pro.ru/cdp/sertum-q-2018.crl
+  # УЦ ООО «ЦИБ‑Сервис»
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/AA524A7440E5365D6812016F74C54E516641A18D
+  - http://cib-service.ru/files/cib-service-2019.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/B45542B24C459A67E79017927F15B08D3AACC7EE
+  - http://cib-service.ru/files/cib-service-2020.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/5FF9F207B82627CE94F415E59E9017EB496C4989
+  - http://cib-service.ru/files/cib-service-mid-2018.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/75EBEEC60D23DDA6606351A020F9FB614755746E
+  - http://secret-net.ru/files/coc4_1.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/580A4F8BC58AA5D37A4C433A580EC9AAFF6EB8E3
+  - http://cib-service.ru/files/cib-service-2018.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/7FBBA5122D382BA7CABE64B25C2922C6B5D1B329
+  - http://secret-net.ru/files/coc7_1.crl
+  # УЦ ООО «РСЦ «Инфо‑Бухгалтер»
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/FC0985EE4A650B953EF68442EEF77F5357F56F5B
+  - http://ib-cr.ru/cdp/2d3311a3dcf729eb14456deb01d4d61c151ba6b5.crl
+ #
+ # Сертификаты Минцифры России
+  - http://root-cert.ru/docs/cer/GUC_DC.cer
+  - http://root-cert.ru/docs/cer/egisso/egisso.cer
+  - http://root-cert.ru/docs/cer/minkomsvyaz_DC.cer
+  - http://root-cert.ru/docs/cer/mincifri.cer
+  - http://root-cert.ru/docs/cer/rosstat/rosstat_gost_2001.cer
+  - http://root-cert.ru/docs/cer/rosstat/rosstat_gost_2012.cer
+  - https://root-cert.ru/docs/cer/tls/federalnoe-kaznacheystvo.crt
+ #
+ # Сертификаты федерального органа в сфере электронной подписи http://e-trust.gosuslugi.ru/#/portal/mainca
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/8CAE88BBFD404A7A53630864F9033606E1DC45E2
+  - http://rostelecom.ru/cdp/guc.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/1AF6FCE68CE3F822C6FAD4CB32AD58FF59FBC221
+  - http://rostelecom.ru/cdp/vguc1_2.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/9D05A704C8C1E565ACDE5878FE0BB96EC53C2A40
+  - http://rostelecom.ru/cdp/vguc1_3.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/0408435EB90E5C8796A160E69E4BFAC453435D1D
+  - http://rostelecom.ru/cdp/vguc1_4.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/9E78A331020E528C046FFD57704A21B7D2241CB3
+  - http://rostelecom.ru/cdp/vguc1.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/B11108FFDCAD99D7A845023AB552CB1ABE845A1B
+  - http://rostelecom.ru/cdp/vguc2_2.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/9BA648660733ED7A550BCEA03A20E14B8F25C99B
+  - http://rostelecom.ru/cdp/vguc1_6.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/2F0CB09BE3550EF17EC4F29C90ABD18BFCAAD63A
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/1D13121735DD6E1F59EA58C786B8F7E8B7E6E20F
+  - http://rostelecom.ru/cdp/guc2022.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/0932E483C4420E668F64D360006D0BEB0BFACCA7
+  - http://rostelecom.ru/cdp/vguc1_5.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/538AD264547716302401CDFB316B287DB12BA675
+  - http://rostelecom.ru/cdp/vguc2.crl
+  - http://e-trust.gosuslugi.ru/app/scc/portal/api/v1/portal/ca/download/4BC6DC14D97010C41A26E058AD851F81C842415A
+  - http://rostelecom.ru/cdp/guc_gost12.crl
+ #
+ # Сертификаты и Списки аннулированных сертификатов Удостоверяющего центра Федерального казначейства http://crl.roskazna.ru/crl/
+  - url: http://crl.roskazna.ru/crl/%D0%9A%D0%BE%D1%80%D0%BD%D0%B5%D0%B2%D0%BE%D0%B9%20%D1%81%D0%B5%D1%80%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%82%20%D0%93%D0%A3%D0%A6%202022.cer
+    filename: Корневой сертификат ГУЦ 2022.cer
+  - http://rostelecom.ru/cdp/guc2022.crl
+  - url: http://crl.roskazna.ru/crl/%D0%9A%D0%BE%D1%80%D0%BD%D0%B5%D0%B2%D0%BE%D0%B9%20%D1%81%D0%B5%D1%80%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%82%20%D0%93%D0%A3%D0%A6.crt
+    filename: Корневой сертификат ГУЦ.crt
+  - http://rostelecom.ru/cdp/guc.crl
+  - url: http://crl.roskazna.ru/crl/%D0%9F%D0%BE%D0%B4%D1%87%D0%B8%D0%BD%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B5%D1%80%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%82%20%D0%A3%D0%A6%20%D0%A4%D0%9A%20%D0%BE%D1%82%2004.07.2017.crt
+    filename: Подчиненный сертификат УЦ ФК от 04.07.2017.crt
+  - http://crl.roskazna.ru/crl/ucfk.crl
+  - url: http://crl.roskazna.ru/crl/%D0%9A%D0%BE%D1%80%D0%BD%D0%B5%D0%B2%D0%BE%D0%B9%20%D1%81%D0%B5%D1%80%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%82%20%D0%93%D0%A3%D0%A6%20%D0%93%D0%9E%D0%A1%D0%A2%202012.crt
+    filename: Корневой сертификат ГУЦ ГОСТ 2012.crt
+  - http://rostelecom.ru/cdp/guc_gost12.crl
+  - url: http://crl.roskazna.ru/crl/%D0%9F%D0%BE%D0%B4%D1%87%D0%B8%D0%BD%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B5%D1%80%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%82%20%D0%A3%D0%A6%20%D0%A4%D0%9A%20%D0%93%D0%9E%D0%A1%D0%A2%202012.crt
+    filename: Подчиненный сертификат УЦ ФК ГОСТ 2012.crt
+  - http://crl.roskazna.ru/crl/ucfk_gost12.crl
+  - url: http://crl.roskazna.ru/crl/%D0%9F%D0%BE%D0%B4%D1%87%D0%B8%D0%BD%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B5%D1%80%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%82%20%D0%A3%D0%A6%20%D0%A4%D0%9A%20%D0%BE%D1%82%2005.02.2020.crt
+    filename: Подчиненный сертификат УЦ ФК от 05.02.2020.crt
+  - http://crl.roskazna.ru/crl/ucfk_2020.crl
+  - http://crl.roskazna.ru/crl/ucfk_2021.crt
+  - http://crl.roskazna.ru/crl/ucfk_2021.crl
+  - http://crl.roskazna.ru/crl/ucfk_2022.crt
+  - http://crl.roskazna.ru/crl/ucfk_2022.crl
+  - https://roskazna.gov.ru/upload/iblock/1af/Kaznacheystvo-Rossii.CER
+
+
+## Required packages
+openssl__packages:
+  - openssl
+  - libengine-gost-openssl1.1
+  - ca-certificates
+
+
+## Configuration
+openssl__get_certificates_from_origin: true
+openssl__validate_certs: true
+openssl__default_days: 1095
+openssl__default_bits: 4096
+
+openssl__dynamic_config: "{{ openssl__default_config | combine(openssl__config|default({})) }}"
+
+# For references check: https://www.mankier.com/5/openssl.cnf#Openssl_Library_Configuration-Random_Configuration
+openssl__default_config:
+  HOME: .
+  oid_section: new_oids
+  openssl_conf: default_conf
+
+  new_oids:
+    tsa_policy1: 1.2.3.4.1
+    tsa_policy2: 1.2.3.4.5.6
+    tsa_policy3: 1.2.3.4.5.7
+
+  ca:
+    default_ca: CA_default
+
+  CA_default:
+    dir: ./demoCA
+    certs: $dir/certs
+    crl_dir: $dir/crl
+    database: $dir/index.txt
+
+    new_certs_dir: $dir/newcerts
+
+    certificate: $dir/cacert.pem
+    serial: $dir/serial
+    crlnumber: $dir/crlnumber
+
+    crl: $dir/crl.pem
+    private_key: $dir/private/cakey.pem
+
+    x509_extensions: usr_cert
+
+    name_opt: ca_default
+    cert_opt: ca_default
+
+    default_days: "{{ openssl__default_days }}"
+    default_crl_days: 30
+    default_md: default
+    preserve: no
+
+    policy: policy_match
+
+  policy_match:
+    countryName: match
+    stateOrProvinceName: match
+    organizationName: match
+    organizationalUnitName: optional
+    commonName: supplied
+    emailAddress: optional
+
+  policy_anything:
+    countryName: optional
+    stateOrProvinceName: optional
+    localityName: optional
+    organizationName: optional
+    organizationalUnitName: optional
+    commonName: supplied
+    emailAddress: optional
+
+  req:
+    default_bits: "{{ openssl__default_bits }}"
+    default_keyfile: privkey.pem
+    distinguished_name: req_distinguished_name
+    attributes: req_attributes
+    x509_extensions: v3_ca
+    string_mask: utf8only
+
+  req_distinguished_name:
+    countryName: Country Name (2 letter code)
+    countryName_default: RU
+    countryName_min: 2
+    countryName_max: 2
+
+    stateOrProvinceName: State or Province Name (full name)
+    stateOrProvinceName_default: Some-State
+
+    localityName: Locality Name (eg, city)
+
+    0.organizationName: Organization Name (eg, company)
+    0.organizationName_default: Internet Widgits Pty Ltd
+
+    organizationalUnitName: Organizational Unit Name (eg, section)
+
+    commonName: Common Name (e.g. server FQDN or YOUR name)
+    commonName_max: 64
+
+    emailAddress: Email Address
+    emailAddress_max: 64
+
+  req_attributes:
+    challengePassword: A challenge password
+    challengePassword_min: 4
+    challengePassword_max: 20
+
+    unstructuredName: An optional company name
+
+  usr_cert:
+    basicConstraints: "CA:FALSE"
+
+    nsComment: "OpenSSL Generated Certificate"
+
+    subjectKeyIdentifier: hash
+    authorityKeyIdentifier: keyid,issuer
+
+  v3_req:
+
+    basicConstraints: "CA:FALSE"
+    keyUsage: nonRepudiation, digitalSignature, keyEncipherment
+
+  v3_ca:
+    subjectKeyIdentifier: hash
+    authorityKeyIdentifier: "keyid:always,issuer"
+    basicConstraints: "critical,CA:true"
+
+  crl_ext:
+    authorityKeyIdentifier=keyid: always
+
+  proxy_cert_ext:
+    basicConstraints: "CA:FALSE"
+    nsComment: "OpenSSL Generated Certificate"
+
+    subjectKeyIdentifier: hash
+    authorityKeyIdentifier: keyid,issuer
+
+    proxyCertInfo: "critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo"
+
+  tsa:
+    default_tsa: tsa_config1
+
+  tsa_config1:
+    dir: ./demoCA
+    serial: $dir/tsaserial
+    crypto_device: builtin
+    signer_cert: $dir/tsacert.pem
+
+    certs: $dir/cacert.pem
+
+    signer_key: $dir/private/tsakey.pem
+    signer_digest: sha256
+    default_policy: tsa_policy1
+
+    other_policies: tsa_policy2, tsa_policy3
+    digests: md_gost94, md_gost12_256, md_gost12_512, sha256, sha384, sha512
+    accuracy: "secs:1, millisecs:500, microsecs:100"
+    clock_precision_digits: 0
+    ordering: yes
+
+    tsa_name: yes
+
+    ess_cert_id_chain: no
+
+    ess_cert_id_alg: sha1
+
+  default_conf:
+    ssl_conf: ssl_sect
+    engines: engine_section
+
+  ssl_sect:
+    system_default: system_default_sect
+
+  system_default_sect:
+    MinProtocol: TLSv1.2
+    CipherString: "GOST89MAC:aGOST01:kGOST:HIGH"
+
+  engine_section:
+    gost: gost_section
+
+  gost_section:
+    engine_id: gost
+    dynamic_path: /usr/lib/{{ ansible_architecture }}-linux-gnu/engines-1.1/gost.so
+    default_algorithms: ALL
+    CRYPT_PARAMS: id-Gost28147-89-CryptoPro-A-ParamSet
