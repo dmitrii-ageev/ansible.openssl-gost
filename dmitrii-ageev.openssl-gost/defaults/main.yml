@@ -23,6 +23,7 @@ openssl__etc_dir: "{{ openssl__root_dir }}/etc"
 openssl__lib_dir: "{{ openssl__root_dir }}/lib"
 openssl__usr_dir: "{{ openssl__root_dir }}/usr"
 openssl__usr_bin_dir: "{{ openssl__usr_dir  }}/bin"
+openssl__usr_local_dir: "{{ openssl__usr_dir  }}/local"
 openssl__var_dir: "{{ openssl__root_dir }}/var"
 openssl__var_lib_dir: "{{ openssl__var_dir  }}/lib"
 openssl__var_log_dir: "{{ openssl__var_dir  }}/log"
@@ -30,22 +31,32 @@ openssl__var_log_dir: "{{ openssl__var_dir  }}/log"
 # Application set
 openssl__config_dir: "{{ openssl__etc_dir }}/ssl"
 openssl__certs_dir: "{{ openssl__config_dir }}/certs"
+openssl__local_certs_dir: "{{ openssl__usr_local_dir }}/share/ca-certificates"
+openssl__local_ru_certs_dir: "{{ openssl__local_certs_dir }}-ru"
 openssl__private_dir: "{{ openssl__config_dir }}/private"
 
 openssl__directories:
   - "{{ openssl__config_dir }}"
   - "{{ openssl__certs_dir }}"
+  - "{{ openssl__local_certs_dir }}"
+  - "{{ openssl__local_ru_certs_dir }}"
   - path: "{{ openssl__private_dir }}"
     mode: '0700'
 
-
 ## Files
 openssl__config_file: "{{ openssl__config_dir }}/{{ openssl__service }}.cnf"
+openssl__ca_certificates: "{{ openssl__certs_dir }}/ca-certificates.crt"
 openssl__tls_certificate: "{{ openssl__certs_dir }}/snakeoil"
 openssl__tls_certificate_key: "{{ openssl__private_dir }}/snakeoil.key"
+openssl__update_script_file: "{{ openssl__usr_local_dir }}/bin/update-local-ca-certificates.sh"
 
 openssl__files:
   - "{{ openssl__config_file }}"
+  - path: "{{ openssl__update_script_file }}"
+    owner: root
+    group: root
+    mode: "{{ openssl__exec_mode }}"
+
 
 openssl__certificates:
   # Корневые сертификаты удостоверяющих центров компаний "Контур", "Сертум Про", "ЦИБ‑Сервис" и "РСЦ "Инфо‑Бухгалтер" https://ca.kontur.ru/about/certificates

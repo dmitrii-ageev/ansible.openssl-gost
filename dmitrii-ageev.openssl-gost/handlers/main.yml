@@ -1,0 +1,4 @@
+---
+- name: Update CA certificates
+  command:
+    cmd: "{{ openssl__update_script_file }}"

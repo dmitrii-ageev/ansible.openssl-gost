@@ -53,3 +53,7 @@ def test_iscdhcp_configuration(host):
         'Configuration file must have pre-defined settings!'
     assert configuration.contains('accuracy = secs:1, millisecs:500, microsecs:100'), \
         'Configuration file must have pre-defined settings!'
+
+    # CA certificate list should exist
+    certificates = host.file('/etc/ssl/certs/ca-certificates.crt')
+    assert certificates.exists, 'CA certificate list should present in the system'

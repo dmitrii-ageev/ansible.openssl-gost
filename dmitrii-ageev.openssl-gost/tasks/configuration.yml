@@ -24,41 +24,44 @@
 
 - name: Copy certificate files
   copy:
-    src: "{{ openssl__certs_dir | regex_replace('^.', '') }}/{{ item.filename | default(item | regex_replace ('^.*/', '')) }}"
-    dest: "{{ openssl__certs_dir }}/{{ item.filename | default(item | regex_replace ('^.*/', '')) }}"
+    src: "{{ openssl__local_ru_certs_dir | regex_replace('^.', '') }}/{{ item.filename | default(item | regex_replace ('^.*/', '')) }}"
+    dest: "{{ openssl__local_ru_certs_dir }}/{{ item.filename | default(item | regex_replace ('^.*/', '')) }}"
     owner: root
     group: root
-    mode: '0640'
+    mode: "{{ openssl__file_mode }}"
   loop: "{{ openssl__certificates }}"
   when: not openssl__get_certificates_from_origin
+  notify: Update CA certificates
 
 - name: Download certificate files
   uri:
     url: "{{ item.url | default(item) }}"
-    dest: "{{ openssl__certs_dir }}"
-    creates: "{{ openssl__certs_dir }}/{{ item.filename | default(item | regex_replace ('^.*/', '')) }}"
+    dest: "{{ openssl__local_certs_dir }}"
+    creates: "{{ openssl__local_ru_certs_dir }}/{{ item.filename | default(item | regex_replace ('^.*/', '')) }}"
     force: yes
     owner: root
     group: root
-    mode: '0640'
+    mode: "{{ openssl__file_mode }}"
     follow_redirects: true
     validate_certs: "{{ openssl__validate_certs }}"
   loop: "{{ openssl__certificates }}"
   when: 
     - openssl__get_certificates_from_origin
     - "'.zip' not in item.url | default(item)"
+  notify: Update CA certificates
 
 - name: Extract archived certificates
   unarchive:
     remote_src: true
     src: "{{ item.url | default(item) }}"
-    dest: "{{ openssl__certs_dir }}"
-    creates: "{{ openssl__certs_dir }}/{{ item.filename | default(item | regex_replace ('^.*/', '')) }}"
+    dest: "{{ openssl__local_ru_certs_dir }}"
+    creates: "{{ openssl__local_ru_certs_dir }}/{{ item.filename | default(item | regex_replace ('^.*/', '')) }}"
     owner: root
     group: root
-    mode: '0640'
+    mode: "{{ openssl__file_mode }}"
     validate_certs: "{{ openssl__validate_certs }}"
   loop: "{{ openssl__certificates }}"
   when: 
     - openssl__get_certificates_from_origin
     - "'.zip' in item.url | default(item)"
+  notify: Update CA certificates
